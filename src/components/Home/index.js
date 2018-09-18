@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
 
 import withAuthorization from '../Session/withAuthorization';
+import withAuthentication from '../Session/withAuthentication';
 import { db } from '../../firebase';
+
+import SignOutButton from '../SignOut/';
 
 class HomePage extends Component {
   constructor(props) {
@@ -25,6 +28,7 @@ class HomePage extends Component {
       <div>
         <h1>Home</h1>
         <p>The Home Page is accessible by every signed in user.</p>
+        <SignOutButton/>
 
         { !!users && <UserList users={users} /> }
       </div>
@@ -44,4 +48,4 @@ const UserList = ({ users }) =>
 
 const authCondition = (authUser) => !!authUser;
 
-export default withAuthorization(authCondition)(HomePage);
+export default withAuthentication(withAuthorization(authCondition)(HomePage));
