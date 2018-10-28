@@ -1,18 +1,25 @@
-const HtmlWebPackPlugin = require("html-webpack-plugin");
-
-const htmlWebpackPlugin = new HtmlWebPackPlugin({
-  template: "./src/index.html",
-  filename: "./index.html"
-});
+var path = require('path');
+var HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
+  entry: './src/index.js',
+  output: {
+    path: path.resolve('dist'),
+    filename: 'bundle.js'
+  },
+  resolve: {
+    extensions: ['.js', '.jsx']
+  },
   module: {
     rules: [
       {
         test: /\.js$/,
         exclude: /node_modules/,
         use: {
-          loader: "babel-loader"
+          loader: "babel-loader",
+          query: {
+            presets:[ 'react', 'stage-2' ]
+          }
         }
       },
       {
@@ -32,8 +39,28 @@ module.exports = {
             }
           }
         ]
+      },
+      {
+          test: /\.(ttf|eot|woff|woff2|otf)$/,
+          loader: "file-loader",
+          options: {
+            name: "./fonts/[name].[ext]",
+          },
+      },
+      {
+          test: /\.(jpg|png|svg|gif)$/,
+          use: {
+            loader: "file-loader",
+            options: {
+              name: "[path][name].[hash].[ext]",
+            },
+          },
       }
     ]
   },
-  plugins: [htmlWebpackPlugin]
+  plugins: [new HtmlWebpackPlugin({
+    template: './src/index.html',
+    filename: 'index.html',
+    inject: 'body'
+})],
 };
