@@ -39,6 +39,22 @@ module.exports = {
             }
           }
         ]
+      },
+      {
+          test: /\.(ttf|eot|woff|woff2|otf)$/,
+          loader: "file-loader",
+          options: {
+            name: "./fonts/[name].[ext]",
+          },
+      },
+      {
+          test: /\.(jpg|png|svg|gif)$/,
+          use: {
+            loader: "file-loader",
+            options: {
+              name: "[path][name].[hash].[ext]",
+            },
+          },
       }
     ]
   },
